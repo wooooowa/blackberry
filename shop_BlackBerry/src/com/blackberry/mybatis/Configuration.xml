@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+    
+<configuration>
+	<!-- DB 접속 정보 값을 가지고 있는 파일 설정 -->
+	<properties resource="com/blackberry/mybatis/db.properties"/> <!-- 경로의 패키지명까지 풀네임을 적을 것 -->
+	
+	<!-- 별명 부여 -->
+	<!-- <typeAliases>
+		<typeAlias type="" alias=""/>
+	</typeAliases> -->
+	
+	<!-- DB 접속정보 세팅 -->
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC"/>
+			<dataSource type="POOLED">
+				<property name="driver" value="${driver}"/>
+				<property name="url" value="${url}"/>
+				<property name="username" value="${username}"/>
+				<property name="password" value="${password}"/>
+				<!-- 활성화된 최대 커넥션수 -->
+				<property name="poolMaximumActiveConnections" value="20"/>
+				<!-- 유휴상태에서 최대 커넥션수 -->
+				<property name="poolMaximumIdleConnections" value="20"/>
+				<!-- 최대 커넥션 획득시간 -->
+				<property name="poolMaximumCheckoutTime" value="20000"/>
+				<!-- pool이 비정상적으로 긴 경우 컨넥션을 다시 얻으려고 시도하는 세팅   -->
+				<property name="poolTimeToWait" value="15000"/>				
+			</dataSource>
+		</environment>
+	</environments>
+	
+	<!-- Mapper.xml 파일 설정 -->
+	<mappers>
+		<mapper resource="com/blackberry/mybatis/blackberryMapper.xml"/>
+	</mappers>
+</configuration>    
+
+
+
