@@ -134,6 +134,10 @@
 			</otherwise>
 		</choose>
 	</insert>
-
+	<update id="boardUpdate" parameterType="com.blackberry.dto.BoardDTO">
+				UPDATE bb_board 
+				SET title = #{title}, writer = #{writer}, filename = #{filename}, filesize = #{filesize}
+				WHERE bno = #{bno}
+	</update>
 </mapper>
 

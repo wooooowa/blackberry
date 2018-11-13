@@ -15,6 +15,8 @@ import com.blackberry.action.BoardDetailAction;
 import com.blackberry.action.BoardDownloadAction;
 import com.blackberry.action.BoardListAction;
 import com.blackberry.action.BoardSearchAction;
+import com.blackberry.action.BoardUpdateAction;
+import com.blackberry.action.BoardUpdatePlayAction;
 import com.blackberry.action.BoardViewcntAction;
 import com.blackberry.action.BoardInsertAction;
 import com.blackberry.action.BoardInsertPlayAction;
@@ -141,7 +143,15 @@ public class BizpollFrontController extends HttpServlet {
 		} else if(command.equals("/download.bizpoll")) {
 			action = new BoardDownloadAction();
 			forward = action.excute(request, response);	
-		}				
+		} else if(command.equals("/boardUpdate.bizpoll")) {
+			action = new BoardUpdateAction();
+			forward = action.excute(request, response);	
+		} else if(command.equals("/boardUpdatePlay.bizpoll")) {
+			action = new BoardUpdatePlayAction();
+			forward = action.excute(request, response);	
+		}
+		
+		
 		
 		
 		//공통 분기작업(페이지이동)

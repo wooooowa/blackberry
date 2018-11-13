@@ -256,7 +256,6 @@
 </script>
 </head>
 <body>
-<h1>안녕하세용~</h1>
 	<!-- 네비게이션 -->
 		<nav id="nav">
 			<div id="close_btn">

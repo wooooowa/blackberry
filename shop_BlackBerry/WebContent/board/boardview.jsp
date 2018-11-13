@@ -247,6 +247,12 @@
 		font-size: 13px;
 	}
 </style>
+<script type="text/javascript">
+	$(document).on("click", "#update_btn", function(){
+		location.href="boardUpdate.bizpoll?bno=${boardview.bno}";
+		
+	});
+</script>
 </head>
 <body>
 <div id="board_tit">Q&A</div>
@@ -269,7 +275,7 @@
 		
 		<div id="content">
 			${boardview.content}
-			<input type="text" id="inputcontent" class="input" value=""name="inputcontent" readonly="readonly">
+			<input type="text" id="inputcontent" class="input" value="" name="inputcontent" readonly="readonly">
 		</div>
 		
 		<div class="tab">

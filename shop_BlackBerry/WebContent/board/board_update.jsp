@@ -187,6 +187,67 @@
     	line-height: 30px;
     	margin-right: 100px;
     }
+    
+    #modal_all {
+		z-index: 3;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		overflow: auto;
+		display: none;
+		border: 1px solid #dadada;
+		border-radius: 10px;
+	}
+	#modal_layout > h3 {
+		text-align: center;
+	}
+	#modal_layout > h4 {
+		font-size: 25px;
+		text-align: center;
+	}
+	#close_btn {
+		position: absolute;
+		right: 20px;
+		top: 15px;
+		color: gray!important;
+		font-size: 20px;
+		padding: 5px;
+		display: block;
+	}
+	#close_btn:hover {
+		background-color: #ccc;
+	}
+	
+	#modal_layout {
+		width: 460px;
+		margin: 0 auto;
+		margin-top: 100px;
+		border: 1px solid #dadada;
+		padding: 30px;
+		background-color: #f5f6f7;
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+					0 6px 20px 0 rgba(0, 0, 0, 0.19);
+		position: relative;	
+		height: 250px;		
+	}
+	#y_btn {}
+	#n_btn {}
+	.agree_btn {
+    	background-color: #5D5D5D;
+    	color: white;
+   	    margin: 10px 13px;
+   		border: none;
+		cursor: pointer;
+		width: 200px;
+		height: 50px;
+		line-height: 50px;
+		font-size: 15px;
+	}
+	.agree_btn:hover {
+    	opacity: 0.8;
+	}
 
 </style>
 <script type="text/javascript" src="<%=path%>/smarteditor/js/service/HuskyEZCreator.js" charset="UTF-8"></script>
@@ -202,35 +263,52 @@
 			return false;
 		}
 		$("#frm_bin").submit();
+	});	
+	
+	/* 삭제확인 모달창 */
+	$(document).on("click", "#delete_btn", function(){		
+		$("#modal_all").css("display", "block");				
 	});
+	$(document).on("click", "#close_btn", function(){		
+		$("#modal_all").css("display", "none");				
+	});
+	
+	
+	/* 첨부파일 */
 	$(document).on("change", "#uploadBtn", function(){
-		var filename = this.files[0].name;
-		$(".fileName").text(filename);
-		$("#fa_close_btn").css("display", "block");
-		
+		var filesize = $(this)[0].files;
+		if(filesize.length < 1){
+			$(".fileName").text("선택된 파일이 없음");
+			$("#fa_close_btn").css("display", "none");
+		} else {
+			var filename = this.files[0].name;
+			$(".fileName").text(filename);
+			$("#fa_close_btn").css("display", "block");
+		}
 	});
+	
 	$(document).on("click", "#fa_close_btn", function(){
 		$("#uploadBtn").replaceWith($("#uploadBtn").clone(true));   //초기화
 		$("#uploadBtn").val("");
-		$(".fileName").text("선택된 파일 없음");
+		$(".fileName").text("선택된 파일이 없음");
 		$("#fa_close_btn").css("display", "none");
 	});
+	
 
+	
 
 </script>
 </head>
 <body>
-
 	<div id="board_tit"><span id="board_tit_qa">Q&A</span></div>
 	<div id="board_layout">
-		<form action="boardInsertPlay.bizpoll" name="frm_bin" method="POST" id="frm_bin" enctype="multipart/form-data">
+		<form action="boardUpdatePlay.bizpoll" name="frm_bin" method="POST" id="frm_bin" enctype="multipart/form-data">
 		<div id="content_layout">
 			<div id="title_line">
 				<span class="span_h">제 목</span>
 				<span class="error"><b>제목을 입력해주세요.</b></span>
 				<div id="title">
-					<input type="text" id="inputtitle" name="inputtitle">
-					
+					<input type="text" id="inputtitle" value="${boardview.title}" name="inputtitle" >
 				</div>
 			</div>
 			<div id="writer_line">
@@ -240,7 +318,8 @@
 				</div>
 			</div>
 			<div id="content_layout">
-				<textarea id="content" name="content" rows="10" cols="100"></textarea>
+				
+				<textarea id="content" name="content" rows="10" cols="100">${boardview.content}</textarea>
 			</div>
 			
 			<script type="text/javascript">
@@ -259,6 +338,9 @@
 				<i class="fa fa-close" id="fa_close_btn" style="display: none"></i>
 				<label for="uploadBtn" class="btn_file">파일선택</label>
 				<input type="file" id="uploadBtn" name="uploadfile" class="uploadBtn">
+				<!-- 화면단에 없는데 필요한 값들 hidden으로 해서 보내주기 (기존filename, bno) -->
+				<input type="hidden" id="post-file-name" name="post-file-name" value="${boardview.filename}">
+				<input type="hidden" id="bno" name="bno" value="${boardview.bno}">
 			</div>
 			
 		</div>
@@ -271,15 +353,26 @@
 			</div>
 			<hr>
 			<div id="div_button">
-				<button type="button" id="insert_btn">등 록</button>
-				<button type="button" id="delete_btn">취 소</button>
+				<button type="button" id="insert_btn">수 정</button>
+				<button type="button" id="delete_btn">삭 제</button>
 			</div>
 			
 		<div>
 		
 		</div>	
-	</form>	
+	</form>
+	
+		<div id="modal_all">
+		<div id="modal_layout">
+			<span id="close_btn"><i class="fa fa-close"></i></span>
+			<h4>회원탈퇴</h4><hr>
+			<h3>정말 BlackBerry 쇼핑몰을 <span class="red">탈퇴</span>하시겠습니까?</h3>
+			<button type="button" id="n_btn" class="agree_btn">아니요</button>
+			<button type="button" id="y_btn" class="agree_btn">예</button>
+		</div>
+	</div>	
 </div>
+
 </body>
 <%@ include file="/footer.jsp" %>
 </html>
