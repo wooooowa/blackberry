@@ -48,6 +48,10 @@ public class BoardUpdatePlayAction implements Action {
 		
 		System.out.println(bno + "," + title + "," + writer + "," + content + "," + postfile);
 		
+		// 기존에 있는 파일 삭제
+		File file = new File(Constants.UPLOAD_PATH + postfile);
+		file.delete();
+		
 		try {
 			Enumeration files = multi.getFileNames();
 			

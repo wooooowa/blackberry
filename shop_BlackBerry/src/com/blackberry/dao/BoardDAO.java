@@ -131,7 +131,7 @@ public class BoardDAO {
 		}
 		return result;
 	}
-	
+	// 게시글 수정
 	public int boardUpdate(BoardDTO bDto) {
 		sqlSession = sqlSessionFactory.openSession();
 		int result = 0;
